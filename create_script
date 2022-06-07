@@ -1,0 +1,22 @@
+CREATE TABLE Employee(
+	Email varchar(50),
+	Password varchar(50) NOT NULL,
+	PRIMARY KEY (email)
+);
+
+CREATE TABLE VacationDays(
+	Email varchar(50),
+	Year int NOT NULL,
+	Days int NOT NULL,
+	PRIMARY KEY(Email, Year),
+	FOREIGN KEY(Email) REFERENCES Employee(Email)
+);
+
+CREATE TABLE Vacation(
+	Email varchar(50),
+	Id serial,
+	StartDate date NOT NULL,
+	EndDate date NOT NULL,
+	PRIMARY KEY(Email, Id),
+	FOREIGN KEY(Email) REFERENCES Employee(Email)
+);
