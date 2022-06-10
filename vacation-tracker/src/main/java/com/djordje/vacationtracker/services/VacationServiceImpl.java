@@ -2,13 +2,11 @@ package com.djordje.vacationtracker.services;
 
 import com.djordje.vacationtracker.models.Vacation;
 import com.djordje.vacationtracker.repositories.EmployeeRepository;
-import com.djordje.vacationtracker.repositories.VacationDaysRepository;
 import com.djordje.vacationtracker.repositories.VacationRepository;
 import com.djordje.vacationtracker.util.CsvVacationReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Date;
 import java.util.List;
 

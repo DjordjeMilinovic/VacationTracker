@@ -1,9 +1,7 @@
 package com.djordje.vacationtracker.util;
 
-import com.djordje.vacationtracker.models.Vacation;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Date;
