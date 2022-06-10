@@ -1,17 +1,22 @@
 package com.djordje.vacationtracker.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 
 @Entity(name = "vacationdays")
-@IdClass(VacationId.class)
+@IdClass(VacationDaysId.class)
 public class VacationDays {
     @Id
-    private String email;
-    @Id
     private int year;
+    @Id
+    private String email;
     private int days;
+    public VacationDays(int year, String email, int days) {
+        this.year = year;
+        this.email = email;
+        this.days = days;
+    }
+
+    public VacationDays(){}
 
     public String getEmail() {
         return email;
@@ -20,6 +25,7 @@ public class VacationDays {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     public int getYear() {
         return year;

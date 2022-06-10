@@ -1,19 +1,15 @@
 package com.djordje.vacationtracker.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "vacation")
-@IdClass(VacationId.class)
 public class Vacation {
-    @Id
     private String email;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date startDate, endDate;
+    private Date startdate, enddate;
 
     public String getEmail() {
         return email;
@@ -32,18 +28,18 @@ public class Vacation {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startdate;
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startdate = startDate;
     }
 
     public Date getEndDate() {
-        return endDate;
+        return enddate;
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.enddate = endDate;
     }
 }

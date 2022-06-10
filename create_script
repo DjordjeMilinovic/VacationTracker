@@ -17,6 +17,6 @@ CREATE TABLE Vacation(
 	Id serial,
 	StartDate date NOT NULL,
 	EndDate date NOT NULL,
-	PRIMARY KEY(Email, Id),
+	PRIMARY KEY(Id),
 	FOREIGN KEY(Email) REFERENCES Employee(Email)
 );

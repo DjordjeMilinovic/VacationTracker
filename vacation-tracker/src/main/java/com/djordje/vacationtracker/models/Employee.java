@@ -1,9 +1,8 @@
 package com.djordje.vacationtracker.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "employee")
@@ -11,6 +10,21 @@ public class Employee {
     @Id
     private String email;
     private String password;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "email")
+    List<Vacation> vacations;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "email")
+    List<VacationDays> vacationDays;
+
+    public Employee(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+    public Employee() {
+    }
 
     public String getEmail() {
         return email;

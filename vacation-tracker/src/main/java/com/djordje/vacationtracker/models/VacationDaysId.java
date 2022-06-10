@@ -3,8 +3,16 @@ package com.djordje.vacationtracker.models;
 import java.io.Serializable;
 
 public class VacationDaysId implements Serializable {
-    private String email;
     private int year;
+
+   private String email;
+
+    public VacationDaysId(int year, String email) {
+        this.year = year;
+        this.email = email;
+    }
+
+    public VacationDaysId(){}
 
     public String getEmail() {
         return email;

@@ -23,7 +23,7 @@ public class CsvVacationReader {
     public boolean csvExtensionCheck(MultipartFile file){
         if(file!=null){
             String name = file.getOriginalFilename();
-            System.out.println(name);
+            //System.out.println(name);
             Pattern p = Pattern.compile("(.+)\\.csv");
             Matcher m = p.matcher(name);
             if(m.matches()) return true;
@@ -76,9 +76,24 @@ public class CsvVacationReader {
     }
 
     //retuns a List of Strings: employee1, vacationDays1, employee2, vacationDays2...
-    public List<String> readVacationYear(MultipartFile file){
+    public List<String> readVacationDays(MultipartFile file){
         Pattern pattern = Pattern.compile("(.+),(.+)");
+        String year = "";
+        //read the year from the file
+        try {
+            String data = new String(file.getBytes()).split("\r\n")[0];
+            Pattern p = Pattern.compile("(.+),(.+)");
+            Matcher m = p.matcher(data);
+            if(m.matches()){
+                year = m.group(2);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         List<String> vacationYearList = parseFile(file, pattern,2);
+        vacationYearList.add(0, year);
+
         return vacationYearList;
     }
 
