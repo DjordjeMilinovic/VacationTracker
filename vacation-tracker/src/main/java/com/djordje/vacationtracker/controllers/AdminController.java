@@ -7,6 +7,7 @@ import com.djordje.vacationtracker.repositories.EmployeeRepository;
 import com.djordje.vacationtracker.repositories.VacationDaysRepository;
 import com.djordje.vacationtracker.services.EmployeeService;
 import com.djordje.vacationtracker.services.VacationDaysService;
+import com.djordje.vacationtracker.services.VacationService;
 import com.djordje.vacationtracker.util.CsvVacationReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,18 +27,27 @@ public class AdminController {
     private EmployeeService employeeService;
     @Autowired
     private VacationDaysService vacationDaysService;
+    @Autowired
+    private VacationService vacationService;
 
     //returns the total number of employees added
     @PostMapping(value = "/importEmployees", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public int importEmployees(@RequestParam MultipartFile file){
-        int totalAdded = employeeService.insertEmployees(file);
+    public String importEmployees(@RequestParam MultipartFile file){
+        String totalAdded = employeeService.insertEmployees(file);
         return totalAdded;
     }
 
     //returns the total number of employees for which the vacation days were added
     @PostMapping(value = "/importVacationDays", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public int importVacationDays(@RequestParam MultipartFile file){
-        int totalAdded = vacationDaysService.insertVacationDays(file);
+    public String importVacationDays(@RequestParam MultipartFile file){
+        String totalAdded = vacationDaysService.insertVacationDays(file);
+        return totalAdded;
+    }
+
+    //returns the total number vacations added
+    @PostMapping(value = "/importVacationDates", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String importVacationDates(@RequestParam MultipartFile file){
+        String totalAdded = vacationService.insertVacation(file);
         return totalAdded;
     }
 

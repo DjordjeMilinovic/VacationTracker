@@ -29,9 +29,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(e);
     }
 
-    public int insertEmployees(MultipartFile file){
+    /*
+    * Method inserts employees from the given file into the database.
+    * If there's and employee with the same email already in the database insertion is skipped.
+    * Method returns a String with information about how many employees were added.*/
+    public String insertEmployees(MultipartFile file){
         int totalAdded = 0; //counts how many employees will be added
         //get the data from the file
+        if(!csvVacationReader.csvExtensionCheck(file))
+            return "File must be .csv!";
         List<String> employeesData = csvVacationReader.readProfiles(file);
         String email, password;
         for(int i =0; i<employeesData.size(); i+=2){
@@ -42,6 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 totalAdded++;
             }
         }
-        return totalAdded;
+        if(totalAdded>0)
+            return "Successfully added "+totalAdded+" employees!";
+        else
+            return "No new employees were added.";
     }
 }

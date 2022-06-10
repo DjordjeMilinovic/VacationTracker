@@ -1,12 +1,17 @@
 package com.djordje.vacationtracker.util;
 
+import com.djordje.vacationtracker.models.Vacation;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Date;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,11 +28,9 @@ public class CsvVacationReader {
     public boolean csvExtensionCheck(MultipartFile file){
         if(file!=null){
             String name = file.getOriginalFilename();
-            //System.out.println(name);
             Pattern p = Pattern.compile("(.+)\\.csv");
             Matcher m = p.matcher(name);
             if(m.matches()) return true;
-            else System.out.println("not .csv");
         }
         return false;
     }
@@ -75,7 +78,7 @@ public class CsvVacationReader {
         return vacationDatesList;
     }
 
-    //retuns a List of Strings: employee1, vacationDays1, employee2, vacationDays2...
+    //returns a List of Strings: employee1, vacationDays1, employee2, vacationDays2...
     public List<String> readVacationDays(MultipartFile file){
         Pattern pattern = Pattern.compile("(.+),(.+)");
         String year = "";
@@ -98,8 +101,15 @@ public class CsvVacationReader {
     }
 
 
-
-
+    //returns a Date created using the given String; format of the
+    public Date convertStringToDate(String date){
+        Date converted = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMM d, y", new Locale("en"));
+        if(dateFormat == null)
+            return null;
+        converted =  dateFormat.parse(date, new ParsePosition(0));
+        return  converted;
+    }
 
 
 }

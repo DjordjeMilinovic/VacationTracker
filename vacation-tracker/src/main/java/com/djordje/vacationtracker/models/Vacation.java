@@ -1,15 +1,26 @@
 package com.djordje.vacationtracker.models;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity(name = "vacation")
 public class Vacation {
-    private String email;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date startdate, enddate;
+    private String email;
+    @Column(name = "startdate")
+    private Date startDate;
+    @Column(name = "enddate")
+    private Date endDate;
+
+    public Vacation(){}
+    public Vacation(String email, Date startDate, Date endDate) {
+        this.email = email;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public String getEmail() {
         return email;
@@ -28,18 +39,18 @@ public class Vacation {
     }
 
     public Date getStartDate() {
-        return startdate;
+        return startDate;
     }
 
     public void setStartDate(Date startDate) {
-        this.startdate = startDate;
+        this.startDate = startDate;
     }
 
     public Date getEndDate() {
-        return enddate;
+        return endDate;
     }
 
     public void setEndDate(Date endDate) {
-        this.enddate = endDate;
+        this.endDate = endDate;
     }
 }
