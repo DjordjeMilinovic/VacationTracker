@@ -39,4 +39,8 @@ public class Employee {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Vacation> getVacations() {
+        return vacations;
+    }
 }
