@@ -1,10 +1,12 @@
 package com.djordje.vacationtracker.controllers;
 
+import com.djordje.vacationtracker.models.Vacation;
 import com.djordje.vacationtracker.services.EmployeeService;
 import com.djordje.vacationtracker.services.VacationDaysService;
 import com.djordje.vacationtracker.services.VacationService;
 import com.djordje.vacationtracker.util.EmployeeResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
@@ -34,6 +36,13 @@ public class EmployeeController {
                 response.setUnusedDays(unusedDays);
         }
         return response;
+    }
+
+    /*
+    * adds a new vacation for an employee*/
+    @PostMapping(value = "/addNewVacation")
+    public Vacation addNewVacation(HttpEntity<Vacation> v){
+        return vacationService.addNewVacation(v.getBody());
     }
 
 }

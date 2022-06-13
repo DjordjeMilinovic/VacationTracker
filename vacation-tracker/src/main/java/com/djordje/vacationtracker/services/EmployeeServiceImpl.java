@@ -100,11 +100,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 String endDateInfo[] = v.getEndDate().toString().split("-");
                 Calendar calendarStart = Calendar.getInstance();
                 calendarStart.set(Integer.parseInt(startDateInfo[0]),
-                        Integer.parseInt(startDateInfo[1]),
+                        Integer.parseInt(startDateInfo[1])-1,
                         Integer.parseInt(startDateInfo[2]));
                 Calendar calendarEnd = Calendar.getInstance();
                 calendarEnd.set(Integer.parseInt(endDateInfo[0]),
-                        Integer.parseInt(endDateInfo[1]),
+                        Integer.parseInt(endDateInfo[1])-1,
                         Integer.parseInt(endDateInfo[2]));
                 int startYear = calendarStart.get(Calendar.YEAR);
                 int endYear = calendarEnd.get(Calendar.YEAR);
