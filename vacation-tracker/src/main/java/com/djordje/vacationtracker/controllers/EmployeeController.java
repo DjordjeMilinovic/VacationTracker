@@ -5,9 +5,12 @@ import com.djordje.vacationtracker.services.EmployeeService;
 import com.djordje.vacationtracker.services.VacationDaysService;
 import com.djordje.vacationtracker.services.VacationService;
 import com.djordje.vacationtracker.util.EmployeeResponseMessage;
+import com.djordje.vacationtracker.util.VacationRangeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController()
 @RequestMapping(value = "/employees")
@@ -43,6 +46,11 @@ public class EmployeeController {
     @PostMapping(value = "/addNewVacation")
     public Vacation addNewVacation(HttpEntity<Vacation> v){
         return vacationService.addNewVacation(v.getBody());
+    }
+
+    @GetMapping(value = "/getVacationsFromTo")
+    public List<Vacation> getVacationsFromTo(HttpEntity<VacationRangeRequest> vacationRange){
+        return vacationService.getAllVacationFromTo(vacationRange.getBody());
     }
 
 }

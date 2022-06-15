@@ -8,6 +8,7 @@ import com.djordje.vacationtracker.repositories.EmployeeRepository;
 import com.djordje.vacationtracker.repositories.VacationDaysRepository;
 import com.djordje.vacationtracker.repositories.VacationRepository;
 import com.djordje.vacationtracker.util.CsvVacationReader;
+import com.djordje.vacationtracker.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private CsvVacationReader csvVacationReader;
+    @Autowired
+    private DateUtils dateUtils;
 
     /*
     * Method returns true if an employee with the given email is already in the database.*/
@@ -95,17 +98,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee employee = employeeRepository.findById(email).get();
             List<Vacation> vacations = employee.getVacations();
             for(Vacation v: vacations){
-
-                String startDateInfo[] = v.getStartDate().toString().split("-");
-                String endDateInfo[] = v.getEndDate().toString().split("-");
-                Calendar calendarStart = Calendar.getInstance();
-                calendarStart.set(Integer.parseInt(startDateInfo[0]),
-                        Integer.parseInt(startDateInfo[1])-1,
-                        Integer.parseInt(startDateInfo[2]));
-                Calendar calendarEnd = Calendar.getInstance();
-                calendarEnd.set(Integer.parseInt(endDateInfo[0]),
-                        Integer.parseInt(endDateInfo[1])-1,
-                        Integer.parseInt(endDateInfo[2]));
+                Calendar calendarStart = dateUtils.dateToCalendar(v.getStartDate());
+                Calendar calendarEnd = dateUtils.dateToCalendar(v.getEndDate());
                 int startYear = calendarStart.get(Calendar.YEAR);
                 int endYear = calendarEnd.get(Calendar.YEAR);
 
