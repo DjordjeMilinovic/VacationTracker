@@ -25,21 +25,21 @@ public class AdminController {
 
     //returns the total number of employees added
     @PostMapping(value = "/importEmployees", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String importEmployees(@RequestParam MultipartFile file){
+    public String importEmployees(@RequestParam MultipartFile file) {
         String totalAdded = employeeService.insertEmployees(file);
         return totalAdded;
     }
 
     //returns the total number of employees for which the vacation days were added
     @PostMapping(value = "/importVacationDays", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String importVacationDays(@RequestParam MultipartFile file){
+    public String importVacationDays(@RequestParam MultipartFile file) {
         String totalAdded = vacationDaysService.insertVacationDays(file);
         return totalAdded;
     }
 
     //returns the total number vacations added
     @PostMapping(value = "/importVacationDates", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String importVacationDates(@RequestParam MultipartFile file){
+    public String importVacationDates(@RequestParam MultipartFile file) {
         String totalAdded = vacationService.insertVacation(file);
         return totalAdded;
     }

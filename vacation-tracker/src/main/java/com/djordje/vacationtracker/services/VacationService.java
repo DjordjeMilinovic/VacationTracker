@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface VacationService {
     public String insertVacation(MultipartFile file);
+
     public Vacation addNewVacation(Vacation v);
+
     public List<Vacation> getAllVacationFromTo(VacationRangeRequest vacationRangeRequest);
 }

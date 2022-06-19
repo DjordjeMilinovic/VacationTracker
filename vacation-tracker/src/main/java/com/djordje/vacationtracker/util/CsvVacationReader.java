@@ -1,9 +1,16 @@
 package com.djordje.vacationtracker.util;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,87 +22,53 @@ public class CsvVacationReader {
     private List<String> list;
 
     @PostConstruct
-    void init(){
+    void init() {
         list = new ArrayList<>();
     }
 
     //returns true if the given file is a .csv file
-    public boolean csvExtensionCheck(MultipartFile file){
-        if(file!=null){
-            String name = file.getOriginalFilename();
-            Pattern p = Pattern.compile("(.+)\\.csv");
-            Matcher m = p.matcher(name);
-            if(m.matches()) return true;
+    public boolean csvExtensionCheck(MultipartFile file) {
+        if (file == null) {
+            return false;
         }
-        return false;
-    }
-
-    //uses the given pattern to match every line of the file and returns a list of all matches
-    //skip - how many lines from the top should be ignored
-    private List<String> parseFile(MultipartFile file, Pattern p, int skip){
-        if(!csvExtensionCheck(file)) return null; //given file was not a .csv file
-        list.clear();
-        try {
-            String fileData = new String(file.getBytes());
-            //array where each element is a line in the original file
-            String fileLines[] = fileData.split("\r\n");
-
-            for(String s : fileLines){
-                if(skip>0){
-                    skip--;
-                    continue;
-                }
-                Matcher m = p.matcher(s);
-                if(m.matches()) {
-                    for(int i =1; i<=m.groupCount();i++){
-                        list.add(m.group(i));
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        String name = file.getOriginalFilename();
+        if (name == null) {
+            return false;
         }
-        return new ArrayList<>(list);
+        Pattern p = Pattern.compile("(.+)\\.csv");
+        Matcher m = p.matcher(name);
+        return m.matches();
     }
 
-    //returns a List of Strings: employeeEmail1, employeePassword1, employeeEmail2, employeePassword2...
-    public List<String> readProfiles(MultipartFile file){
-        Pattern pattern = Pattern.compile("(.+),(.+)");
-        List<String> profilesList = parseFile(file, pattern, 2);
-        return profilesList;
+    public CSVReader createReader(MultipartFile file, int skipLines) throws IOException {
+        Reader reader = new InputStreamReader(file.getInputStream());
+        CSVParser csvParser = new CSVParserBuilder()
+                .withSeparator(',')
+                .withIgnoreQuotations(false)
+                .build();
+        CSVReader csvReader = new CSVReaderBuilder(reader)
+                .withCSVParser(csvParser)
+                .withSkipLines(skipLines)
+                .build();
+        return csvReader;
     }
 
-
-    //returns a List of Strings: employee1, startDate1, endDate1, employee2, startDate2, endDate2...
-    public List<String> readVacationDates(MultipartFile file){
-        Pattern pattern = Pattern.compile("(.+),\"(.+)\",\"(.+)\"");
-        List<String> vacationDatesList = parseFile(file, pattern, 1);
-        return vacationDatesList;
+    public List<String[]> readVacationDates(MultipartFile file) throws Exception {
+        CSVReader csvReader = createReader(file, 1);
+        List<String[]> list = csvReader.readAll();
+        return list;
     }
 
-    //returns a List of Strings: employee1, vacationDays1, employee2, vacationDays2...
-    public List<String> readVacationDays(MultipartFile file){
-        Pattern pattern = Pattern.compile("(.+),(.+)");
-        String year = "";
-        //read the year from the file
-        try {
-            String data = new String(file.getBytes()).split("\r\n")[0];
-            Pattern p = Pattern.compile("(.+),(.+)");
-            Matcher m = p.matcher(data);
-            if(m.matches()){
-                year = m.group(2);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        List<String> vacationYearList = parseFile(file, pattern,2);
-        vacationYearList.add(0, year);
-
-        return vacationYearList;
+    public List<String[]> readEmployeeProfiles(MultipartFile file) throws Exception {
+        CSVReader csvReader = createReader(file, 2);
+        List<String[]> list = csvReader.readAll();
+        return list;
     }
 
-
-
+    public List<String[]> readVacationDays(MultipartFile file) throws Exception {
+        CSVReader csvReader = createReader(file, 0);
+        List<String[]> list = csvReader.readAll();
+        return list;
+    }
 
 }

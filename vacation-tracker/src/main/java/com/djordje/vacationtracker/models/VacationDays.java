@@ -10,13 +10,15 @@ public class VacationDays {
     @Id
     private String email;
     private int days;
+
     public VacationDays(int year, String email, int days) {
         this.year = year;
         this.email = email;
         this.days = days;
     }
 
-    public VacationDays(){}
+    public VacationDays() {
+    }
 
     public String getEmail() {
         return email;

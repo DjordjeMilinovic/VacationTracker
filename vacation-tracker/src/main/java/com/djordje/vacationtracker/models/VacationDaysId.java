@@ -5,14 +5,15 @@ import java.io.Serializable;
 public class VacationDaysId implements Serializable {
     private int year;
 
-   private String email;
+    private String email;
 
     public VacationDaysId(int year, String email) {
         this.year = year;
         this.email = email;
     }
 
-    public VacationDaysId(){}
+    public VacationDaysId() {
+    }
 
     public String getEmail() {
         return email;

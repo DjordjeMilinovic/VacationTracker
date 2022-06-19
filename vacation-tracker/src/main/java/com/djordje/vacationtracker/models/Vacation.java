@@ -15,7 +15,9 @@ public class Vacation {
     @Column(name = "enddate")
     private Date endDate;
 
-    public Vacation(){}
+    public Vacation() {
+    }
+
     public Vacation(String email, Date startDate, Date endDate) {
         this.email = email;
         this.startDate = startDate;

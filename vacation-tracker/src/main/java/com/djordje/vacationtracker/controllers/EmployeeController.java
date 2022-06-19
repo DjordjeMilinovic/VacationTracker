@@ -24,7 +24,7 @@ public class EmployeeController {
     private VacationService vacationService;
 
     /*
-    * returns information about vacation days for an employee for a given year*/
+     * returns information about vacation days for an employee for a given year*/
     @GetMapping(value = "/vacationDaysDetails/{email}/{year}")
     public EmployeeResponseMessage getVacationDaysDetails(@PathVariable String email, @PathVariable int year) {
         int totalDays = employeeService.getTotalVacationDays(email, year);
@@ -33,23 +33,23 @@ public class EmployeeController {
 
         EmployeeResponseMessage response = new EmployeeResponseMessage();
         response.setEmail(email);
-        if(totalDays>0){
-                response.setTotalDays(totalDays);
-                response.setUsedDays(usedDays);
-                response.setUnusedDays(unusedDays);
+        if (totalDays > 0) {
+            response.setTotalDays(totalDays);
+            response.setUsedDays(usedDays);
+            response.setUnusedDays(unusedDays);
         }
         return response;
     }
 
     /*
-    * adds a new vacation for an employee*/
+     * adds a new vacation for an employee*/
     @PostMapping(value = "/addNewVacation")
-    public Vacation addNewVacation(HttpEntity<Vacation> v){
+    public Vacation addNewVacation(HttpEntity<Vacation> v) {
         return vacationService.addNewVacation(v.getBody());
     }
 
     @GetMapping(value = "/getVacationsFromTo")
-    public List<Vacation> getVacationsFromTo(HttpEntity<VacationRangeRequest> vacationRange){
+    public List<Vacation> getVacationsFromTo(HttpEntity<VacationRangeRequest> vacationRange) {
         return vacationService.getAllVacationFromTo(vacationRange.getBody());
     }
 
